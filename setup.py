@@ -25,7 +25,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     author="ShiWeiDong",
-    author_email="weidong_shi@outlook.com",
+    author_email="shiweidong1993@gmail.com",
     url="https://github.com/FourCats-Py/FourCats-Flask",
     download_url="https://github.com/FourCats-Py/FourCats-Flask/archive/{}.tar.gz".format(version),
     keywords=["fourcats", "flask"],
