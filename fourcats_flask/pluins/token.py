@@ -15,9 +15,10 @@ from ..refactor.http_code import AuthFailedException
 class Token:
     """"""
 
-    def __init__(self, secret: str, scheme: str = "JWT", algorithm="HS256"):
+    def __init__(self, secret: str, scheme: str = "JWT", algorithm="HS256", message: str = "认证失败"):
         """"""
         self.secret = secret
+        self.message = message
         self.algorithm = algorithm
         self.permission_callback = None
         self.auth = HTTPTokenAuth(scheme=scheme)
@@ -31,9 +32,11 @@ class Token:
             try:
                 data = jwt.decode(token, self.secret, algorithms=self.algorithm)
             except jwt.exceptions.ExpiredSignatureError:
-                raise AuthFailedException(message="认证失败")
+                raise AuthFailedException(message=self.message)
             except jwt.exceptions.InvalidSignatureError:
-                raise AuthFailedException(message="认证失败")
+                raise AuthFailedException(message=self.message)
+            except jwt.exceptions.DecodeError:
+                raise AuthFailedException(message=self.message)
 
             user = data.get("user", dict())
 
