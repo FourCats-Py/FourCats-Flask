@@ -21,7 +21,7 @@ setup(
     name="fourcats-flask",
     version=version,
     packages=["fourcats_flask"],
-    description="A quick use tool for Python common connectors.",
+    description="A flask encapsulated based on personal habits for fast use.",
     long_description=readme,
     long_description_content_type="text/markdown",
     author="ShiWeiDong",
