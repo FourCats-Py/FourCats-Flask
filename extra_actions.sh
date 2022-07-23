@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # shellcheck disable=SC2124
 params=${@:2}
 baseName=$(basename "$1")
@@ -21,8 +21,6 @@ function changeVersion() {
 
   echo "012301230123"
 
-  echo ::set-output name=version::"$version"
-
   echo "123123123"
 
   sed -i -r "s/^__version__[[:space:]]+=[[:space:]]+[\'\"](.*)[\'\"]$/__version__ = \"$version\"/" fourcats_flask/__init__.py
@@ -30,6 +28,8 @@ function changeVersion() {
   echo "456456456"
 
   cat fourcats_flask/__init__.py
+
+  echo ::set-output name=version::"$version"
 }
 
 function releasePack() {
