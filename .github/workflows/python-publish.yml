@@ -54,6 +54,7 @@ jobs:
           fi
       - name: Change Version
         run: |
+          chmod +x extra_actions.sh
           ./extra_actions.sh ${{ github.ref }} changeVersion
       - name: Set up Python
         uses: actions/setup-python@v3
