@@ -16,7 +16,7 @@ with open("README.md", "rb") as file:
 setup(
     name="fourcats-flask",
     version=version,
-    packages=find_packages,
+    packages=find_packages(),
     description="A flask encapsulated based on personal habits for fast use.",
     long_description=readme,
     long_description_content_type="text/markdown",
