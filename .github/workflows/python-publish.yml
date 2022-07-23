@@ -73,15 +73,11 @@ jobs:
 
       - name: Publish package To Pypi
         if: steps.check-tag.outputs.state == 'true'
-        run: |
-          echo Publish package To Pypi
         uses: pypa/gh-action-pypi-publish@master
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
 
       - name: Publish package Test Pypi
-        run: |
-          echo Publish package Test Pypi
         uses: pypa/gh-action-pypi-publish@master
         with:
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
