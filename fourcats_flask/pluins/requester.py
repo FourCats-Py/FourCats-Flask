@@ -12,7 +12,7 @@ from loguru import logger
 from .excepts import ExceptionError, ExceptionService
 
 
-class RequesterV2:
+class Requester:
     """"""
 
     def __init__(self, method, url, fields=None, headers=None, q_type=None, **urlopen_kw):

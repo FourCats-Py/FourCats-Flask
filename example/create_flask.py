@@ -4,7 +4,6 @@
 # TIME ： 2022-07-21
 from flask_cors import CORS
 from flask_restx import Namespace, Resource
-from werkzeug.datastructures import FileStorage
 
 from fourcats_flask.refactor.api import Api
 from fourcats_flask.refactor.argument import Argument
