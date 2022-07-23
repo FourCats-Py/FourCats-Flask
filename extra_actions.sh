@@ -17,14 +17,14 @@ function changeVersion() {
 
   version=${version:1}
 
-  echo "Get version $version"
-  echo ::set-output name=version::"$version"
-
   path=`pwd`
-  echo $path
+  echo "$path"
 
   files=`ls`
-  echo $files
+  echo "$files"
+
+  echo "Get version $version"
+  echo ::set-output name=version::"$version"
 
   sed -i -r "s/^__version__[[:space:]]+=[[:space:]]+[\'\"](.*)[\'\"]$/__version__ = \"$version\"/" ./FourCats-Flask/fourcats_flask/__init__.py
 
