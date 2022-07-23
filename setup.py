@@ -3,12 +3,7 @@
 
 # TIME ： 2022-07-23
 import re
-from setuptools import find_packages
-
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from setuptools import find_packages, setup
 
 with open("fourcats_flask/__init__.py", "r") as file:
     regex_version = r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]'
