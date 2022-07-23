@@ -16,13 +16,14 @@ function changeVersion() {
   fi
 
   version=${version:1}
-
-  echo "Get version $version"
   echo ::set-output name=version::"$version"
 
-   sed -i -r "s/^__version__[[:space:]]+=[[:space:]]+[\'\"](.*)[\'\"]$/__version__ = \"$version\"/" fourcats_connector/__init__.py
+  echo "Get version $version"
 
-   cat fourcats_connector/__init__.py
+  sed -i -r "s/^__version__[[:space:]]+=[[:space:]]+[\'\"](.*)[\'\"]$/__version__ = \"$version\"/" fourcats_flask/__init__.py
+
+  cat fourcats_flask/__init__.py
+
 }
 
 function releasePack() {
