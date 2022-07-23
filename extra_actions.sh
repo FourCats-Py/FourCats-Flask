@@ -16,20 +16,14 @@ function changeVersion() {
   fi
 
   version=${version:1}
+  echo ::set-output name=version::"$version"
 
-#  echo "Get version $version"
-#
-#  echo "012301230123"
-#
-#  echo "123123123"
-#
-#  sed -i -r "s/^__version__[[:space:]]+=[[:space:]]+[\'\"](.*)[\'\"]$/__version__ = \"$version\"/" fourcats_flask/__init__.py
-#
-#  echo "456456456"
+  echo "Get version $version"
+
+  sed -i -r "s/^__version__[[:space:]]+=[[:space:]]+[\'\"](.*)[\'\"]$/__version__ = \"$version\"/" fourcats_flask/__init__.py
 
   cat fourcats_flask/__init__.py
 
-  echo ::set-output name=version::"$version"
 }
 
 function releasePack() {
