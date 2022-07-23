@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # shellcheck disable=SC2124
 params=${@:2}
 baseName=$(basename "$1")
