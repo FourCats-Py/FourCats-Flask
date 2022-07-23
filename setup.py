@@ -3,11 +3,7 @@
 
 # TIME ： 2022-07-23
 import re
-
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from setuptools import setup, find_packages
 
 with open("fourcats_flask/__init__.py", "r") as file:
     regex_version = r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]'
@@ -20,7 +16,7 @@ with open("README.md", "rb") as file:
 setup(
     name="fourcats-flask",
     version=version,
-    packages=["fourcats_flask"],
+    packages=find_packages,
     description="A flask encapsulated based on personal habits for fast use.",
     long_description=readme,
     long_description_content_type="text/markdown",
