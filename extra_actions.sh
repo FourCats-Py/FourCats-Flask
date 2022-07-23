@@ -20,9 +20,15 @@ function changeVersion() {
   echo "Get version $version"
   echo ::set-output name=version::"$version"
 
-   sed -i -r "s/^__version__[[:space:]]+=[[:space:]]+[\'\"](.*)[\'\"]$/__version__ = \"$version\"/" fourcats_flask/__init__.py
+  path=`pwd`
+  echo $path
 
-   cat fourcats_flask/__init__.py
+  files=`ls`
+  echo $files
+
+  sed -i -r "s/^__version__[[:space:]]+=[[:space:]]+[\'\"](.*)[\'\"]$/__version__ = \"$version\"/" ./FourCats-Flask/fourcats_flask/__init__.py
+
+  cat ./FourCats-Flask/fourcats_flask/__init__.py
 }
 
 function releasePack() {
