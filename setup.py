@@ -23,15 +23,15 @@ setup(
     packages=["fourcats_flask"],
     description="A quick use tool for Python common connectors.",
     long_description=readme,
-    long_description_content_type="text/x-rst",
+    long_description_content_type="text/markdown",
     author="ShiWeiDong",
     author_email="weidong_shi@outlook.com",
     url="https://github.com/FourCats-Py/FourCats-Flask",
     download_url="https://github.com/FourCats-Py/FourCats-Flask/archive/{}.tar.gz".format(version),
     keywords=["fourcats", "flask"],
     install_requires=[
-        "flask-restx>=0.5.1", "loguru>=0.6.0", "PyYAML>=6.0",
-        "urllib3>=1.26.10",  "Flask-SQLAlchemy>=2.5.1", "Flask-Cors>=3.0.10"
+        "flask-restx>=0.5.1", "loguru>=0.6.0", "PyYAML>=6.0", "Flask-HTTPAuth>=4.7.0"
+        "urllib3>=1.26.10",  "Flask-SQLAlchemy>=2.5.1", "Flask-Cors>=3.0.10", "PyJWT>=2.4.0"
     ],
     python_requires=">=3.8"
 )

@@ -4,6 +4,7 @@
 # TIME ： 2022-07-21
 import time
 import traceback
+from typing import Union
 from decimal import Decimal
 from datetime import date, datetime
 
@@ -41,21 +42,26 @@ class Flask(_Flask):
 class FlaskInit:
     """"""
 
-    def __init__(self, app: Flask):
-        self.app = app
-
-    @classmethod
-    def register_all(cls, app: Flask, api: Api, config: str = None, create_all: bool = False) -> None:
+    def __init__(self, api: Api, configs: Union[str, list], create_all: bool = False):
         """"""
-        cls.register_config(app=app, config=config)
-        cls.register_sqlalchemy(app=app, create_all=create_all)
-        cls.register_hook(app=app, api=api)
-        return
+        self.api = api
+        self.configs = configs
+        self.create_all = create_all
+
+    def init_app(self, app: Flask):
+        """"""
+        self.register_config(app=app, configs=self.configs)
+        self.register_sqlalchemy(app=app, create_all=self.create_all)
+        self.register_hook(app=app, api=self.api)
 
     @staticmethod
-    def register_config(app: Flask, config: str) -> None:
+    def register_config(app: Flask, configs: Union[str, list]) -> None:
         """"""
-        app.config.from_object(config)
+        if not isinstance(configs, list):
+            configs = [configs]
+
+        for config in configs:
+            app.config.from_object(config)
         return
 
     @staticmethod

@@ -6,6 +6,7 @@ from flask_cors import CORS
 from flask_restx import Namespace, Resource
 
 from fourcats_flask.refactor.api import Api
+from fourcats_flask.pluins.token import Token
 from fourcats_flask.refactor.argument import Argument
 from fourcats_flask.refactor.app import Flask, FlaskInit
 from fourcats_flask.refactor.request_parser import RequestParser
@@ -20,10 +21,17 @@ api = Api(
     doc="/api/docs"
 )
 
+auth = Token(secret="1")
 api.init_app(flask_app)
 FlaskInit.register_hook(app=flask_app, api=api)
 
 test_api = Namespace("Test", description="测试模块")
+
+
+@auth.verify_permission
+def verify_permission(user):
+    print(123)
+    print(user)
 
 
 @test_api.route("/<int:pid>")
@@ -56,6 +64,7 @@ class TestView(Resource):
     parser_delete.add_argument(name="b", type=str, location=("args",), help="B")
     parser_delete.add_argument(name="c", type=str, location=("args",), help="C")
 
+    @auth.auth.login_required
     @test_api.expect(parser_post)
     def post(self, pid):
         """
@@ -73,6 +82,7 @@ class TestView(Resource):
         测试 PUT 请求
         :return:
         """
+        print(auth.generate_token())
         params = self.parser_put.parse_args()
         params["pid"] = pid
         return UpdateSuccess(data=params)
