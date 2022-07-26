@@ -17,17 +17,17 @@ class ApiResponse(HTTPException):
     state_code = -1
 
     def __init__(self, http_code=None, message=None, state_code=None, data=None, paging=False):
-        if http_code:
+        if http_code is not None:
             self.code = http_code
 
-        if message:
+        if message is not None:
             self.message = message
 
-        if state_code:
+        if state_code is not None:
             self.state_code = state_code
 
         self.paging = paging
-        self.data = data if data else list()
+        self.data = data if data is not None else list()
         super(ApiResponse, self).__init__(message, None)
 
     def get_body(

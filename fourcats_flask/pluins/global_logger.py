@@ -20,7 +20,8 @@ class GlobalLogger:
     def __init__(self, response: Response, api: Api, level: str = "info"):
         """"""
         try:
-            self.__logger(response=response, api=api, level=level)
+            if "swagger" not in request.path:
+                self.__logger(response=response, api=api, level=level)
         except Exception as e:
             import traceback
             traceback.print_exc()
@@ -35,13 +36,17 @@ class GlobalLogger:
         method = request.method
         path = request.path
         swagger_dict = api.__schema__
-        rule_basename = os.path.basename(request.url_rule.rule)
-        if ":" in rule_basename:
-            basename = "{" + rule_basename.split(":")[1].replace(">", "") + "}"
+
+        if request.url_rule is not None:
+            rule_basename = os.path.basename(request.url_rule.rule)
+            if ":" in rule_basename:
+                basename = "{" + rule_basename.split(":")[1].replace(">", "") + "}"
+            else:
+                basename = rule_basename.replace("<", "{").replace(">", "}")
+            rule = request.url_rule.rule.replace(rule_basename, basename)
         else:
-            basename = rule_basename.replace("<", "{").replace(">", "}")
-        # 当做权限是，可以使用 request.url_rule.rule 作为路由信息，进行权限匹配
-        rule = request.url_rule.rule.replace(rule_basename, basename)
+            rule = ""
+
         describe = swagger_dict.get("paths").get(rule, dict()).get(method.lower(), dict()).get("summary")
         params = self.__get_params(_request=request)
         uip = request.remote_addr
@@ -52,8 +57,8 @@ class GlobalLogger:
             "response": json.loads(bytes.decode(response.data)) if response.data else list(),
             "request_time": g.request_time, "response_time": int(time.time()), "use_time": time.time() - g.request_time
         }
-        if "swagger" not in path:
-            getattr(logger, level)(json.dumps(log_msg, ensure_ascii=False))
+
+        getattr(logger, level)(json.dumps(log_msg, ensure_ascii=False))
 
     def __get_params(self, _request):
         """
