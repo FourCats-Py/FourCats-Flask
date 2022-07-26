@@ -8,16 +8,18 @@ from typing import Union
 from decimal import Decimal
 from datetime import date, datetime
 
-from flask import g, current_app
+
+from flask import g
 from flask import Flask as _Flask
 from flask.json import JSONEncoder as _JSONEncoder
+from werkzeug.exceptions import HTTPException
 
 from .api import Api
 from .sqlalchemy import db
 from .requester import Request
 from .response import ApiResponse
 from ..pluins.global_logger import GlobalLogger
-from .http_code import ServerException, NotFoundException
+from .http_code import ServerException
 
 
 class JSONEncoder(_JSONEncoder):
@@ -83,17 +85,18 @@ class FlaskInit:
             """"""
             if isinstance(e, ApiResponse):
                 return e
-            elif isinstance(e, ApiResponse):
-                if e.code == 404:
-                    return NotFoundException()
-                return ServerException()
+            if isinstance(e, HTTPException):
+                if e.code == 500:
+                    state_code = -1
+                else:
+                    state_code = 0
+                return ApiResponse(http_code=e.code, message=e.description, state_code=state_code)
             else:
-                if current_app.config["DEBUG"]:
+                if app.config['DEBUG'] is True:
                     traceback.print_exc()
                     return ServerException()
                 else:
-                    data = traceback.format_exc()
-                    return ServerException(data=data)
+                    return ServerException()
 
         @app.after_request
         def after_request(response):
