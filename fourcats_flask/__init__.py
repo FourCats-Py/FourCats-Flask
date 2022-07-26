@@ -10,6 +10,7 @@ from .pluins.requester import Requester
 from .pluins.configfile import ConfigFile
 from .refactor.app import Flask, FlaskInit
 from .refactor.request_parser import RequestParser
+from .pluins.logger import InitLogger, JsonFormatter
 from .refactor.http_code import (
     GainSuccess,
     CreateSuccess,
