@@ -21,7 +21,7 @@ auth = Token(secret="1")
 api.init_app(flask_app)
 FlaskInit.register_hook(app=flask_app, api=api)
 
-test_api = Namespace("Test", description="测试模块")
+test_api = Namespace("Test", description="Testing")
 
 
 @auth.verify_permission
