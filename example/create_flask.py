@@ -15,11 +15,7 @@ from fourcats_flask.refactor.http_code import CreateSuccess, UpdateSuccess, Gain
 flask_app = Flask(__name__)
 CORS(flask_app)
 
-api = Api(
-    title="Flask Base",
-    description="Flask Base Document",
-    doc="/api/docs"
-)
+api = Api(title="Flask Base", description="Flask Base Document", doc="/api/docs")
 
 auth = Token(secret="1")
 api.init_app(flask_app)

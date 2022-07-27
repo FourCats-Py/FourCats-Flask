@@ -6,7 +6,7 @@ from mergedict import MergeDict
 
 
 class Registry(object):
-    """ 配置模块"""
+    """ Configuration module"""
 
     def __init__(self, options=None):
         if type(options) is dict:
@@ -16,15 +16,12 @@ class Registry(object):
         self.hooks = {}
 
     def set(self, key, value):
-        """设置配置项"""
+        """Set configuration items."""
         items = key.split('.')
-        # 只需要设置顶层
         if len(items) == 1:
             self.options[key] = value
             return self.get(key)
-        # 弹出最后的键
         end_key = items.pop()
-        # 执行默认值处理
         options = self.options
         for item in items:
             if options.get(item) is None:
@@ -32,12 +29,11 @@ class Registry(object):
             if not isinstance(options.get(item), dict):
                 options[item] = {}
             options = options.get(item)
-        # 设置新值
         options[end_key] = value
         return self.get(key)
 
     def merge(self, key, value):
-        """合并配置项"""
+        """Merge configuration items."""
         if not isinstance(value, dict):
             return False
         news = MergeDict(self.get(key, {}))
@@ -46,11 +42,10 @@ class Registry(object):
         return news
 
     def get(self, key=None, default=None, empty=False):
-        """获取配置项"""
+        """Get configuration items."""
         if key is None:
             return self.options
         items = key.split('.')
-        # 处理数据
         options = self.options
         for item in items:
             options = options.get(item)
@@ -62,7 +57,7 @@ class Registry(object):
         return options
 
     def default(self, key=None, default=None):
-        """设置默认值"""
+        """Set default values."""
         value = self.get(key)
         if value is None:
             self.get(key, default)
@@ -70,7 +65,7 @@ class Registry(object):
         return value
 
     def load(self, value):
-        """加载配置项"""
+        """Load configuration items."""
         if isinstance(value, dict):
             self.options.update(value)
             return True

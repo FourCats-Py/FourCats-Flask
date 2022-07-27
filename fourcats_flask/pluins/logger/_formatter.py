@@ -9,7 +9,7 @@ from ._model import LoggerContent
 
 class JsonFormatter:
     """
-    自定义 Json 序列化
+    Customize JSON serialization.
     """
     content = LoggerContent
 
