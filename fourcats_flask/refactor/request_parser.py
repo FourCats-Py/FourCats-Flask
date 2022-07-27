@@ -10,7 +10,7 @@ from .http_code import ParameterException
 
 class RequestParser(_RequestParser):
     """
-    自定义参数解析器
+    Custom parameter parser.
     """
 
     def parse_args(self, req=None, strict=False):

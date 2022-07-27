@@ -92,6 +92,6 @@ class Requester:
             logger.debug("RESPONSE: {}".format(result))
             logger.debug("".join(["*" * 30, " " * 5, "RESPONSE END", " " * 5, "*" * 30]))
         except Exception as e:
-            logger.error(f"远端服务器调用失败 - {e}")
-            raise ExceptionService("远端服务器调用失败~")
+            logger.error(f"The remote server call failed. - {e}")
+            raise ExceptionService("The remote server call failed.~")
         return response

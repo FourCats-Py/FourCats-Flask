@@ -15,7 +15,7 @@ from ..refactor.http_code import AuthFailedException
 class Token:
     """"""
 
-    def __init__(self, secret: str, scheme: str = "JWT", algorithm="HS256", message: str = "认证失败"):
+    def __init__(self, secret: str, scheme: str = "JWT", algorithm: str = "HS256", message: str = "认证失败"):
         """"""
         self.secret = secret
         self.message = message
@@ -26,6 +26,7 @@ class Token:
 
     def init_app(self):
         """"""
+
         @self.auth.verify_token
         def verify_token(token: str):
             """"""
@@ -45,6 +46,7 @@ class Token:
 
             g.user = user
             return data
+
         return self
 
     def generate_token(self, user: dict = None, expiration: int = None) -> str:

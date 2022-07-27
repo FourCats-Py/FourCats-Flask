@@ -14,7 +14,7 @@ from ..refactor.api import Api
 
 class GlobalLogger:
     """
-    请求后打印自定义请求日志
+    Print custom request log after request.
     """
 
     def __init__(self, response: Response, api: Api, level: str = "info"):
@@ -29,7 +29,7 @@ class GlobalLogger:
 
     def __logger(self, response: Response, api: Api, level: str = "info"):
         """
-        打印日志
+        Print logs.
         :return:
         """
 
@@ -62,7 +62,7 @@ class GlobalLogger:
 
     def __get_params(self, _request):
         """
-        获取所有参数
+        Get all parameters.
         :return:
         """
         parameter = dict()
@@ -79,8 +79,8 @@ class GlobalLogger:
     @staticmethod
     def __change(data):
         """
-        检测参数类型
-        :param data: 参数
+        Detect the parameter type.
+        :param data: parameter
         :return:
         """
         result = data

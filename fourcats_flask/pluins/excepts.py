@@ -5,30 +5,30 @@
 
 
 class ExceptionBase(Exception):
-    """基础异常"""
+    """Basic abnormality"""
     pass
 
 
 class ExceptionService(ExceptionBase):
-    """服务异常"""
+    """Service exception"""
     pass
 
 
 class ExceptionServer(ExceptionBase):
-    """服务异常"""
+    """Service exception"""
     pass
 
 
 class ExceptionError(ExceptionBase):
-    """错误异常"""
+    """Error exception"""
     pass
 
 
 class ExceptionWarning(ExceptionBase):
-    """警告异常"""
+    """Warning exception"""
     pass
 
 
 class ExceptionInfo(ExceptionBase):
-    """消息异常"""
+    """Message exception"""
     pass

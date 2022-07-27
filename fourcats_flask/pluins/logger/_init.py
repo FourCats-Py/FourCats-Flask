@@ -14,14 +14,15 @@ class InitLogger:
     def __init__(self, app_path: str, json_path: str = "", rotation: str = "00:00", retention: int = 6,
                  encoding: str = "UTF-8", spec: str = "YYYYMMDD", level: str = "INFO"):
         """
+        loguru Document: https://loguru.readthedocs.io/en/stable/overview.html
 
-        :param app_path: 应用日志输出文件绝对路径
-        :param json_path: Json 格式日志输出文件绝对路径
-        :param rotation: 文件切割方式, 详情请参考 `https://loguru.readthedocs.io/en/stable/overview.html?highlight=rotation#easier-file-logging-with-rotation-retention-compression`
-        :param retention: 文件备份方式, 详情请参考 `https://loguru.readthedocs.io/en/stable/overview.html?highlight=rotation#easier-file-logging-with-rotation-retention-compression`
-        :param encoding: 日志文件输出编码
-        :param spec: 日志备份文件输出时间样式
-        :param level: 输入日志文件日志级别
+        :param app_path: Absolute path of application log output file.
+        :param json_path: Absolute path of log output file in JSON format.
+        :param rotation: Document cutting method.
+        :param retention: File backup method.
+        :param encoding: Log file output code.
+        :param spec: Log backup file output time style.
+        :param level: Enter the log file log level.
         """
         app_file_sink = self.__init_file_sink(
             path=app_path, rotation=rotation, retention=retention, encoding=encoding, spec=spec
@@ -35,12 +36,22 @@ class InitLogger:
 
     @staticmethod
     def __init_app_log(*args, **kwargs):
-        """"""
+        """
+        Initialize the application log.
+        :param args:
+        :param kwargs:
+        :return:
+        """
         logger.add(format=stderr_formatter, enqueue=True, *args, **kwargs)
 
     @staticmethod
     def __init_json_log(*args, **kwargs):
-        """"""
+        """
+        Initialize the JSON format log.
+        :param args:
+        :param kwargs:
+        :return:
+        """
         logger.add(format=json_formatter, enqueue=True, filter=json_filter, *args, **kwargs)
 
     @staticmethod

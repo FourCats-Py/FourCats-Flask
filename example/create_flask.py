@@ -5,33 +5,30 @@
 from flask_cors import CORS
 from flask_restx import Namespace, Resource
 
-from fourcats_flask.refactor.api import Api
-from fourcats_flask.pluins.token import Token
-from fourcats_flask.refactor.argument import Argument
-from fourcats_flask.refactor.app import Flask, FlaskInit
-from fourcats_flask.refactor.request_parser import RequestParser
-from fourcats_flask.refactor.http_code import CreateSuccess, UpdateSuccess, GainSuccess, DeleteSuccess
+from fourcats_flask import Api
+from fourcats_flask import Token
+from fourcats_flask import Argument
+from fourcats_flask import RequestParser
+from fourcats_flask import Flask, FlaskInit
+from fourcats_flask import CreateSuccess, UpdateSuccess, GainSuccess, DeleteSuccess
 
 flask_app = Flask(__name__)
 CORS(flask_app)
 
-api = Api(
-    title="Flask Base",
-    description="Flask Base Document",
-    doc="/api/docs"
-)
+api = Api(title="Flask Base", description="Flask Base Document", doc="/api/docs")
 
 auth = Token(secret="1")
 api.init_app(flask_app)
 FlaskInit.register_hook(app=flask_app, api=api)
 
-test_api = Namespace("Test", description="测试模块")
+test_api = Namespace("Test", description="Testing")
 
 
 @auth.verify_permission
 def verify_permission(user):
     print(123)
     print(user)
+    return
 
 
 @test_api.route("/<int:pid>")
@@ -68,7 +65,7 @@ class TestView(Resource):
     @test_api.expect(parser_post)
     def post(self, pid):
         """
-        测试 POST 请求
+        Testing POST
         :return:
         """
         params = self.parser_post.parse_args()
@@ -79,7 +76,7 @@ class TestView(Resource):
     @test_api.expect(parser_put)
     def put(self, pid):
         """
-        测试 PUT 请求
+        Testing PUT
         :return:
         """
         print(auth.generate_token())
@@ -90,7 +87,7 @@ class TestView(Resource):
     @test_api.expect(parser_patch)
     def patch(self, pid):
         """
-        测试 PATCH 请求
+        Testing PATCH
         :return:
         """
         params = self.parser_put.parse_args()
@@ -100,7 +97,7 @@ class TestView(Resource):
     @test_api.expect(parser_get)
     def get(self, pid):
         """
-        测试 GET 请求
+        Testing GET
         :return:
         """
         params = self.parser_get.parse_args()
@@ -110,7 +107,7 @@ class TestView(Resource):
     @test_api.expect(parser_delete)
     def delete(self, pid):
         """
-        测试 DELETE 请求
+        Testing DELETE
         :return:
         """
         params = self.parser_delete.parse_args()
@@ -121,4 +118,4 @@ class TestView(Resource):
 api.add_namespace(test_api, path="/api/test")
 
 if __name__ == '__main__':
-    flask_app.run(host="localhost", port=5051)
+    flask_app.run(host="localhost", port=5051, debug=True)
