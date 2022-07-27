@@ -7,59 +7,59 @@ from .response import ApiResponse
 
 class GainSuccess(ApiResponse):
     code = 200
-    message = "获取成功"
+    message = "Success"
     state_code = 1
 
 
 class UpdateSuccess(ApiResponse):
     code = 200
-    message = "更新成功"
+    message = "Update success"
     state_code = 1
 
 
 class CreateSuccess(ApiResponse):
     code = 201
-    message = "创建成功"
+    message = "Created success"
     state_code = 1
 
 
 class DeleteSuccess(ApiResponse):
     code = 204
-    message = "删除成功"
+    message = "Deleted success"
     state_code = 1
 
 
 class BadRequestException(ApiResponse):
     code = 400
-    message = "客户端错误"
+    message = "Client error"
     state_code = 0
 
 
 class AuthFailedException(ApiResponse):
     code = 401
-    message = "认证失败"
+    message = "Authentication failed"
     state_code = -1
 
 
 class ForbiddenException(ApiResponse):
     code = 403
-    message = "暂无权限"
+    message = "Forbidden"
     state_code = 0
 
 
 class NotFoundException(ApiResponse):
     code = 404
-    message = "没有找到资源"
+    message = "NotFound"
     state_code = 0
 
 
 class ParameterException(ApiResponse):
     code = 422
-    message = "参数错误"
+    message = "Parameter error"
     state_code = 0
 
 
 class ServerException(ApiResponse):
     code = 500
-    message = "抱歉, 系统发生未知错误 (*￣︶￣)!"
+    message = "Sorry, an unknown error occurred in the system. (*￣︶￣)!"
     state_code = 0

@@ -13,8 +13,8 @@ from werkzeug.exceptions import HTTPException
 
 class ApiResponse(HTTPException):
     code = 500
-    message = "抱歉, 系统发生未知错误 (*￣︶￣)!"
-    state_code = -1
+    message = "Sorry, an unknown error occurred in the system. (*￣︶￣)!"
+    state_code = 0
 
     def __init__(self, http_code=None, message=None, state_code=None, data=None, paging=False):
         if http_code is not None:
