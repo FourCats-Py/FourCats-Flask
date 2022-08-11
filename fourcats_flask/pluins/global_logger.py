@@ -6,7 +6,7 @@ import json
 import os.path
 import time
 
-from loguru import logger
+from fourcats_utils import logger
 from flask import g, request, Response
 
 from ..refactor.api import Api
