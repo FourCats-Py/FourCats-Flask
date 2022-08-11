@@ -23,6 +23,7 @@ jobs:
       - name: Pack
         id: pack
         run: |
+          chmod +x extra_actions.sh
           ./extra_actions.sh ${{ github.ref }} changeVersion releasePack
 
       - name: Upload Tar
