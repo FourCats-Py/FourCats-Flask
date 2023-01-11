@@ -27,7 +27,7 @@ setup(
     keywords=["fourcats", "flask"],
     install_requires=[
         "flask-restx>=0.5.1", "loguru>=0.6.0", "PyYAML>=6.0", "Flask-HTTPAuth>=4.7.0", "mergedict>=1.0.0",
-        "urllib3>=1.26.10",  "Flask-SQLAlchemy>=2.5.1", "Flask-Cors>=3.0.10", "PyJWT>=2.4.0"
+        "urllib3>=1.26.10",  "Flask-SQLAlchemy>=2.5.1", "Flask-Cors>=3.0.10", "PyJWT>=2.4.0", "fourcats-utils>=0.0.4"
     ],
     python_requires=">=3.8"
 )

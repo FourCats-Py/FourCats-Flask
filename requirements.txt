@@ -7,7 +7,7 @@ Flask-Cors==3.0.10
 Flask-HTTPAuth==4.7.0
 flask-restx==0.5.1
 Flask-SQLAlchemy==2.5.1
-fourcats-utils==0.0.2
+fourcats-utils>=0.0.4
 greenlet==1.1.2
 importlib-metadata==4.12.0
 importlib-resources==5.8.0
