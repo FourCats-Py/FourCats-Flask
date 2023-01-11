@@ -31,10 +31,8 @@ flask_app = Flask(__name__)
 api = Api(title="Flask Base", description="Flask Base Document", doc="/api/docs")
 
 # create_all - Whether to create a data table through Flask-Sqlalchemy. The default is false.
-FlaskInit(api=api, configs=["<your_path>/setting"], create_all=True).init_app(app=flask_app)
 
-# or
-
+FlaskInit.register_api(app=flask_app, api=api)
 FlaskInit.register_hook(app=flask_app, api=api)
 FlaskInit.register_config(configs=["<your_path>/setting"], app=flask_app)
 FlaskInit.register_sqlalchemy(app=flask_app, create_all=True)

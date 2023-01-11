@@ -8,7 +8,6 @@ from typing import Union
 from decimal import Decimal
 from datetime import date, datetime
 
-
 from flask import g
 from flask import Flask as _Flask
 from flask.json import JSONEncoder as _JSONEncoder
@@ -44,30 +43,32 @@ class Flask(_Flask):
 class FlaskInit:
     """"""
 
-    def __init__(self, api: Api, configs: Union[str, list], create_all: bool = False):
+    @classmethod
+    def register_api(cls, app: Flask, api: Api, hook: bool = False):
         """"""
-        self.api = api
-        self.configs = configs
-        self.create_all = create_all
+        api.init_app(app=app)
 
-    def init_app(self, app: Flask):
-        """"""
-        self.register_config(app=app, configs=self.configs)
-        self.register_sqlalchemy(app=app, create_all=self.create_all)
-        self.register_hook(app=app, api=self.api)
+        if hook is True:
+            cls.register_hook(app=app, api=api)
+        return
 
-    @staticmethod
-    def register_config(app: Flask, configs: Union[str, list]) -> None:
+    @classmethod
+    def register_config(cls, app: Flask, configs: Union[str, list], sqlalchemy: bool = False,
+                        create_all: bool = False) -> None:
         """"""
         if not isinstance(configs, list):
             configs = [configs]
 
         for config in configs:
             app.config.from_object(config)
+
+        if sqlalchemy is True:
+            cls.register_sqlalchemy(app=app, create_all=create_all)
+
         return
 
-    @staticmethod
-    def register_sqlalchemy(app: Flask, create_all: bool = False) -> None:
+    @classmethod
+    def register_sqlalchemy(cls, app: Flask, create_all: bool = False) -> None:
         """"""
         db.init_app(app)
 
@@ -76,8 +77,8 @@ class FlaskInit:
                 db.create_all()
         return
 
-    @staticmethod
-    def register_hook(app: Flask, api: Api) -> None:
+    @classmethod
+    def register_hook(cls, app: Flask, api: Api) -> None:
         """"""
 
         @app.errorhandler(Exception)
