@@ -7,7 +7,7 @@ import time
 import decimal
 import traceback
 import dataclasses
-from typing import Union
+from typing import Union, Type
 from datetime import date, datetime
 
 from flask import g
@@ -50,8 +50,8 @@ class DefaultJSONProvider(_DefaultJSONProvider):
 
 
 class Flask(_Flask):
-    request_class: type[Request] = Request
-    json_provider_class: type[JSONProvider] = DefaultJSONProvider
+    request_class: Type[Request] = Request
+    json_provider_class: Type[JSONProvider] = DefaultJSONProvider
 
 
 class FlaskInit:
