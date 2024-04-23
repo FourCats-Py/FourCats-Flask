@@ -4,7 +4,8 @@
 # TIME ： 2022-07-21
 from contextlib import contextmanager
 
-from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, BaseQuery
+from flask_sqlalchemy.query import Query as _Query
+from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy
 
 from .http_code import NotFoundException
 
@@ -20,7 +21,7 @@ class SQLAlchemy(_SQLAlchemy):
             raise e
 
 
-class Query(BaseQuery):
+class Query(_Query):
     def filter_by(self, **kwargs):
         return super(Query, self).filter_by(**kwargs)
 

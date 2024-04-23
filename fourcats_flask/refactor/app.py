@@ -2,16 +2,19 @@
 # -*- coding: UTF-8 -*-
 
 # TIME ： 2022-07-21
+import uuid
 import time
+import decimal
 import traceback
-from typing import Union
-from decimal import Decimal
+import dataclasses
+from typing import Union, Type
 from datetime import date, datetime
 
 from flask import g
 from flask import Flask as _Flask
-from flask.json import JSONEncoder as _JSONEncoder
+from flask.json.provider import JSONProvider
 from werkzeug.exceptions import HTTPException
+from flask.json.provider import DefaultJSONProvider as _DefaultJSONProvider
 
 from .api import Api
 from .sqlalchemy import db
@@ -21,23 +24,34 @@ from ..pluins.global_logger import GlobalLogger
 from .http_code import ServerException
 
 
-class JSONEncoder(_JSONEncoder):
-    def default(self, o):
-        self.ensure_ascii = False
+class DefaultJSONProvider(_DefaultJSONProvider):
+
+    @staticmethod
+    def default(o):
         if hasattr(o, "keys") and hasattr(o, "__getitem__"):
             return dict(o)
-        if isinstance(o, datetime):
-            return o.strftime("%Y-%m-%d %H:%M:%S")
+
         if isinstance(o, date):
             return o.strftime("%Y-%m-%d")
-        if isinstance(o, Decimal):
-            return o.__float__()
-        raise ServerException()
+
+        if isinstance(o, datetime):
+            return o.strftime("%Y-%m-%d %H:%M:%S")
+
+        if isinstance(o, (decimal.Decimal, uuid.UUID)):
+            return str(o)
+
+        if dataclasses and dataclasses.is_dataclass(o):
+            return dataclasses.asdict(o)
+
+        if hasattr(o, "__html__"):
+            return str(o.__html__())
+
+        raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
 
 
 class Flask(_Flask):
-    request_class = Request
-    json_encoder = JSONEncoder
+    request_class: Type[Request] = Request
+    json_provider_class: Type[JSONProvider] = DefaultJSONProvider
 
 
 class FlaskInit:

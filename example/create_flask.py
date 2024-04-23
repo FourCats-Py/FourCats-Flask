@@ -61,7 +61,7 @@ class TestView(Resource):
     parser_delete.add_argument(name="b", type=str, location=("args",), help="B")
     parser_delete.add_argument(name="c", type=str, location=("args",), help="C")
 
-    @auth.auth.login_required
+    # @auth.auth.login_required
     @test_api.expect(parser_post)
     def post(self, pid):
         """
