@@ -26,8 +26,8 @@ setup(
     download_url="https://github.com/FourCats-Py/FourCats-Flask/archive/{}.tar.gz".format(version),
     keywords=["fourcats", "flask"],
     install_requires=[
-        "flask-restx>=0.5.0, <1.2.0", "Flask<2.3.0", "loguru>=0.6.0", "PyYAML>=6.0", "Flask-HTTPAuth>=4.7.0",
-        "mergedict>=1.0.0", "urllib3>=1.26.10", "SQLAlchemy<2.0.0",  "Flask-SQLAlchemy<=2.5.1", "Flask-Cors>=3.0.10",
+        "flask-restx>=1.2.0", "Flask>=2.3.0", "loguru>=0.6.0", "PyYAML>=6.0", "Flask-HTTPAuth>=4.7.0",
+        "mergedict>=1.0.0", "urllib3>=1.26.10", "SQLAlchemy>=2.0.0",  "Flask-SQLAlchemy>=2.5.1", "Flask-Cors>=3.0.10",
         "PyJWT>=2.4.0", "fourcats-utils>=0.0.4"
     ],
     python_requires=">=3.8"
