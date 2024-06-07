@@ -68,47 +68,61 @@ class Api(_Api):
         :param e:
         :return:
         """
-        got_request_exception.send(current_app._get_current_object(), exception=e)
-
-        if not isinstance(e, HTTPException) and current_app.propagate_exceptions:
+        if (
+                not isinstance(e, HTTPException)
+                and self._propagate_exceptions()
+                and not isinstance(e, tuple(self._own_and_child_error_handlers.keys()))
+        ):
             exc_type, exc_value, tb = sys.exc_info()
             if exc_value is e:
                 raise
             else:
                 raise e
 
-        include_message_in_response = current_app.config.get("ERROR_INCLUDE_MESSAGE", True)
+        include_message_in_response = current_app.config.get(
+            "ERROR_INCLUDE_MESSAGE", True
+        )
         default_data = {}
 
         headers = Headers()
 
-        for typecheck, handler in six.iteritems(self._own_and_child_error_handlers):
+        for typecheck, handler in self._own_and_child_error_handlers.items():
             if isinstance(e, typecheck):
                 result = handler(e)
-                default_data, code, headers = unpack(result, HTTPStatus.INTERNAL_SERVER_ERROR)
+                default_data, code, headers = unpack(
+                    result, HTTPStatus.INTERNAL_SERVER_ERROR
+                )
                 break
         else:
+            # Flask docs say: "This signal is not sent for HTTPException or other exceptions that have error handlers
+            # registered, unless the exception was raised from an error handler."
+            got_request_exception.send(current_app._get_current_object(), exception=e)
+
             if isinstance(e, HTTPException):
-                code = HTTPStatus(e.code)
+                code = None
+                if e.code is not None:
+                    code = HTTPStatus(e.code)
+                elif e.response is not None:
+                    code = HTTPStatus(e.response.status_code)
                 if include_message_in_response:
-                    default_data = {
-                        'message': getattr(e, 'description', code.phrase)
-                    }
+                    default_data = {"message": e.description or code.phrase}
                 headers = e.get_response().headers
             elif self._default_error_handler:
                 result = self._default_error_handler(e)
-                default_data, code, headers = unpack(result, HTTPStatus.INTERNAL_SERVER_ERROR)
+                default_data, code, headers = unpack(
+                    result, HTTPStatus.INTERNAL_SERVER_ERROR
+                )
             else:
                 code = HTTPStatus.INTERNAL_SERVER_ERROR
                 if include_message_in_response:
                     default_data = {
-                        'message': code.phrase,
+                        "message": code.phrase,
                     }
 
         if include_message_in_response:
-            default_data['message'] = default_data.get('message', str(e))
+            default_data["message"] = default_data.get("message", str(e))
 
-        data = getattr(e, 'data', default_data)
+        data = getattr(e, "data", default_data)
         fallback_mediatype = None
 
         if code >= HTTPStatus.INTERNAL_SERVER_ERROR:
@@ -117,9 +131,12 @@ class Api(_Api):
                 exc_info = None
             current_app.log_exception(exc_info)
 
-        elif code == HTTPStatus.NOT_FOUND and current_app.config.get("ERROR_404_HELP", True) \
-                and include_message_in_response:
-            data['message'] = self._help_on_404(data.get('message', None))
+        elif (
+                code == HTTPStatus.NOT_FOUND
+                and current_app.config.get("RESTX_ERROR_404_HELP", True)
+                and include_message_in_response
+        ):
+            data["message"] = self._help_on_404(data.get("message", None))
 
         elif code == HTTPStatus.NOT_ACCEPTABLE and self.default_mediatype is None:
             # if we are handling NotAcceptable (406), make sure that
@@ -127,7 +144,9 @@ class Api(_Api):
             # default mediatype (so that make_response doesn't throw
             # another NotAcceptable error).
             supported_mediatypes = list(self.representations.keys())
-            fallback_mediatype = supported_mediatypes[0] if supported_mediatypes else "text/plain"
+            fallback_mediatype = (
+                supported_mediatypes[0] if supported_mediatypes else "text/plain"
+            )
 
         # Remove blacklisted headers
         for header in HEADERS_BLACKLIST:
